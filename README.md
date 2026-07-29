@@ -77,7 +77,48 @@ pip install -e .
 
 ---
 
-<h2 id="usage">🚀 الاستخدام</h2>
+<h2 id="quick">🔥 الاستخدام البسيط (للمبتدئين)</h2>
+
+أسهل طريقة — سطر واحد فقط:
+
+```bash
+python main.py --simple "منظر طبيعي مع جبال" --preset vertical_reels --out فيديوي
+```
+
+أو من ملف سكريبت + صور:
+
+```bash
+python main.py --script input/script.txt --preset vertical_reels --out ريلز
+```
+
+### 🎯 القوالب الجاهزة
+
+| الأمر | القالب | المقاس | الاستخدام |
+|-------|--------|--------|-----------|
+| `--preset vertical_reels` | عمودي | 1080×1920 | TikTok, Reels, Shorts |
+| `--preset horizontal` | أفقي | 1920×1080 | YouTube |
+| `--preset square` | مربع | 1080×1080 | Instagram |
+| `--preset cinematic` | سينمائي | 1920×820 | أفلام قصيرة |
+
+### 🎤 أمثلة سريعة
+
+```bash
+# ريلز عمودي بالصوت السعودي
+python main.py --simple "منظر طبيعي مع جبال وبحيرة" --preset vertical_reels
+
+# ريلز بالصوت المصري
+python main.py --simple "شارع الإسكندرية" --preset vertical_reels --voice ar-EG-SalmaNeural
+
+# 10 فيديوهات من ملف سكريبت
+python main.py --script input/script.txt --preset vertical_reels --out سلسلة_طبيعة
+
+# عرض كل القوالب
+python main.py --presets
+```
+
+---
+
+<h2 id="usage">🚀 الاستخدام المتقدم (CLI)</h2>
 
 ### 🎬 نص إلى فيديو
 
@@ -330,6 +371,10 @@ ayman_elsherbeny_automation/
 │   └── config.yaml                   # ملف التكوين
 ├── examples/
 │   └── batch_example.json            # مثال دفعي
+├── main.py                              # ✅ مدخل سهل للمبتدئين
+├── input/
+│   ├── script.txt                       # ✅ مثال سكريبت جاهز
+│   └── images/                          # ضع صورك هنا
 ├── pyproject.toml
 ├── requirements.txt
 ├── run_windows.bat
