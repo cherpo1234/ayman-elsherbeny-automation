@@ -1,0 +1,90 @@
+# إعدادات أوتوميشن "أيمن الشربيني"
+# Text/Image to Video with Audio Automation
+
+app:
+  name: "أيمن الشربيني - Text/Image to Video Automation"
+  version: "1.0.0"
+  author: "أيمن الشربيني"
+  description: "أوتوميشن احترافي لتحويل النص/الصور إلى فيديو مع صوت"
+
+# إعدادات الفيديو
+video:
+  model: "stable-video-diffusion"  # stable-video-diffusion, stable-video-diffusion-img2vid
+  device: "auto"  # auto, cuda, cpu, mps
+  dtype: "float16"  # float16, float32, bfloat16
+  fps: 7
+  motion_bucket_id: 127
+  noise_aug_strength: 0.02
+  decode_chunk_size: 2
+  num_frames: 25
+  width: 1024
+  height: 576
+  seed: -1  # -1 للعشوائية
+  
+  # خيارات SVD Image-to-Video
+  img2vid:
+    min_fps: 5
+    max_fps: 30
+    fps: 7
+
+# إعدادات الصوت
+audio:
+  tts_engine: "edge-tts"  # edge-tts, coqui-tts, bark
+  language: "ar"  # ar, en, etc.
+  voice: "ar-SA-HamedNeural"  # edge-tts voices
+  coqui_model: "tts_models/multilingual/multi-dataset/xtts_v2"
+  speed: 1.0
+  pitch: 0
+  volume: 1.0
+  
+  # إعدادات Bark (إذا تم اختياره)
+  bark:
+    voice_preset: "v2/ar_speaker_0"
+    text_temp: 0.7
+    waveform_temp: 0.7
+
+# إعدادات الدمج (FFmpeg)
+merge:
+  video_codec: "libx264"
+  audio_codec: "aac"
+  video_preset: "medium"
+  crf: 23
+  audio_bitrate: "128k"
+  output_format: "mp4"
+  
+  # خيارات دمج الصوت
+  audio_mix_mode: "replace"  # replace, mix, sidechain
+  audio_volume: 1.0
+  video_volume: 1.0
+
+# إعدادات النص إلى صورة (لـ Text-to-Video عبر SVD)
+text_to_image:
+  engine: "stable-diffusion-xl"  # stable-diffusion-xl, stable-diffusion-1.5
+  model_path: "stabilityai/stable-diffusion-xl-base-1.0"
+  refiner_path: "stabilityai/stable-diffusion-xl-refiner-1.0"
+  width: 1024
+  height: 576
+  steps: 30
+  guidance_scale: 7.5
+  seed: -1
+
+# إعدادات المخرجات
+output:
+  directory: "./output"
+  naming_template: "{project_name}_{timestamp}_{mode}"
+  keep_intermediate: false  # الاحتفاظ بملفات الفيديو/الصوت المنفصلة
+  
+# إعدادات السجلات
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "./logs/ayman_elsherbeny.log"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# إعدادات GPU/CPU
+hardware:
+  gpu_memory_fraction: 0.9
+  enable_xformers: true
+  enable_vae_slicing: true
+  enable_vae_tiling: true
+  cpu_offload: false
+  sequential_cpu_offload: false

@@ -1,0 +1,32 @@
+[
+  {
+    "prompt": "منظر طبيعي جميل مع جبال عالية وبحيرة صافية تعكس السماء",
+    "audio_text": "منظر طبيعي ساحر مع جبال شاهقة وبحيرة هادئة",
+    "voice": "ar-SA-HamedNeural",
+    "language": "ar",
+    "frames": 25,
+    "fps": 7,
+    "motion_bucket": 127,
+    "output_name": "nature_mountains"
+  },
+  {
+    "prompt": "مدينة مستقبلية ليلاً مع أضواء نيون وسيارات طائرة",
+    "audio_text": "مدينة المستقبل تلمع بأضواء النيون",
+    "voice": "ar-EG-SalmaNeural",
+    "language": "ar",
+    "frames": 25,
+    "fps": 7,
+    "motion_bucket": 150,
+    "output_name": "cyberpunk_city"
+  },
+  {
+    "prompt": "موجات بحر تضرب الشاطئ الرملي عند غروب الشمس",
+    "audio_text": "صوت البحر المريح عند غروب الشمس",
+    "voice": "ar-SA-ZariyahNeural",
+    "language": "ar",
+    "frames": 25,
+    "fps": 7,
+    "motion_bucket": 100,
+    "output_name": "ocean_sunset"
+  }
+]
