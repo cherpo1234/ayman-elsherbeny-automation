@@ -3,15 +3,13 @@ Core Automation Class - أيمن الشربيني
 Main orchestrator for Text/Image to Video with Audio
 """
 import uuid
+import subprocess
 from pathlib import Path
 from typing import Optional, Union, List, Dict, Any
-from contextlib import contextmanager
 
 from ayman_elsherbeny_automation import config, logger, OUTPUT_DIR as CONFIG_OUTPUT_DIR
-from ayman_elsherbeny_automation.generation.video_generator import create_video_generator
 from ayman_elsherbeny_automation.generation.text_to_image import create_text_to_image_generator
 from ayman_elsherbeny_automation.generation.audio_generator import create_audio_generator
-from ayman_elsherbeny_automation.generation.video_merger import create_video_merger
 
 
 class AymanElsherbenyAutomation:
@@ -43,23 +41,14 @@ class AymanElsherbenyAutomation:
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
         # Lazy initialization
-        self._video_generator = None
         self._text_to_image = None
         self._audio_generator = None
-        self._video_merger = None
 
         logger.info(f"Initializing Ayman Elsherbeny Automation")
         logger.info(f"Video model: {self.video_model}")
         logger.info(f"TTS engine: {self.tts_engine}")
         logger.info(f"Device: {self.device}")
         logger.info(f"Output dir: {self.output_dir}")
-
-    @property
-    def video_generator(self):
-        if self._video_generator is None:
-            logger.info("Loading video generator...")
-            self._video_generator = create_video_generator()
-        return self._video_generator
 
     @property
     def text_to_image(self):
@@ -74,12 +63,6 @@ class AymanElsherbenyAutomation:
             logger.info("Loading audio generator...")
             self._audio_generator = create_audio_generator()
         return self._audio_generator
-
-    @property
-    def video_merger(self):
-        if self._video_merger is None:
-            self._video_merger = create_video_merger()
-        return self._video_merger
 
     def text_to_video(
         self,
@@ -133,56 +116,63 @@ class AymanElsherbenyAutomation:
             seed=seed,
         )
 
-        # 2. توليد فيديو من الصورة
-        logger.info("Step 2/4: Generating video from image...")
-        video_frames = self.video_generator.generate_from_image(
-            image=image,
-            num_frames=num_frames,
-            fps=fps,
-            motion_bucket_id=motion_bucket_id,
-            noise_aug_strength=noise_aug_strength,
-            decode_chunk_size=config.get("video.decode_chunk_size", 2),
-            seed=seed,
-            width=width,
-            height=height,
-        )
-
-        # 3. توليد الصوت
+        # 2. توليد الصوت
         audio_text = audio_text or prompt
-        logger.info("Step 3/4: Generating audio...")
+        logger.info("Step 2/4: Generating audio...")
         audio_path = self.audio_generator.generate(
             text=audio_text,
             voice=audio_voice,
             language=audio_language,
         )
 
-        # 4. دمج الفيديو والصوت
-        logger.info("Step 4/4: Merging video and audio...")
+        # 3. إنشاء فيديو من الصورة مع الصوت
+        logger.info("Step 3/4: Creating video from image...")
+        import subprocess
+        import tempfile
+
         if output_name is None:
             output_name = f"txt2vid_{uuid.uuid4().hex[:8]}"
 
-        video_path = self.output_dir / f"{output_name}_video.mp4"
         merged_path = self.output_dir / f"{output_name}_final.mp4"
 
-        # حفظ الفيديو
-        self.video_generator.save_video(video_frames, video_path, fps=fps or 7)
+        image_path = self.output_dir / f"{output_name}_temp.png"
+        image.save(image_path)
 
-        # دمج
-        merged_path = self.video_merger.merge(
-            video_path=video_path,
-            audio_path=audio_path,
-            output_path=merged_path,
+        # الحصول على مدة الصوت
+        result = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+             "-of", "default=noprint_wrappers=1:nokey=1", str(audio_path)],
+            capture_output=True, text=True
         )
+        duration = float(result.stdout.strip()) if result.stdout else 10.0
+
+        fps_val = fps or 24
+        total_frames = int(duration * fps_val)
+
+        # إنشاء فيديو من الصورة + الصوت باستخدام FFmpeg
+        cmd = [
+            "ffmpeg", "-y",
+            "-loop", "1",
+            "-i", str(image_path),
+            "-i", str(audio_path),
+            "-c:v", "libx264",
+            "-t", str(duration),
+            "-pix_fmt", "yuv420p",
+            "-vf", f"scale=trunc(iw/2)*2:trunc(ih/2)*2",
+            "-c:a", "aac",
+            "-b:a", "128k",
+            "-shortest",
+            str(merged_path),
+        ]
+        subprocess.run(cmd, check=True, capture_output=True)
+
+        image_path.unlink(missing_ok=True)
 
         result = {
-            "video": video_path,
+            "video": merged_path,
             "audio": audio_path,
             "merged": merged_path,
         }
-
-        # تنظيف الملفات الوسيطة
-        if not keep_intermediate:
-            video_path.unlink(missing_ok=True)
 
         logger.info(f"Text-to-Video completed: {merged_path}")
         return result
@@ -361,16 +351,11 @@ class AymanElsherbenyAutomation:
 
     def unload_models(self) -> None:
         """إلغاء تحميل جميع النماذج لتحرير الذاكرة"""
-        if self._video_generator:
-            self._video_generator.unload()
-            self._video_generator = None
         if self._text_to_image:
             self._text_to_image.unload()
             self._text_to_image = None
         if self._audio_generator:
             self._audio_generator = None
-        if self._video_merger:
-            self._video_merger = None
 
         from ayman_elsherbeny_automation.utils.device import clear_memory
         clear_memory()
