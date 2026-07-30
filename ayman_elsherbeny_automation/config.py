@@ -13,7 +13,7 @@ class Config:
     """فئة إدارة التكوين"""
 
     def __init__(self, config_path: Optional[Path] = None):
-        self.config_path = config_path or Path(__file__).parent.parent.parent / "config" / "config.yaml"
+        self.config_path = config_path or Path(__file__).parent.parent / "config" / "config.yaml"
         self._config: Dict[str, Any] = {}
         self.load()
 
@@ -76,7 +76,7 @@ class Config:
 
 
 # مسارات المجلدات
-ROOT_DIR = Path(__file__).parent.parent.parent
+ROOT_DIR = Path(__file__).parent.parent
 CONFIG_DIR = ROOT_DIR / "config"
 MODELS_DIR = ROOT_DIR / "models"
 OUTPUT_DIR = ROOT_DIR / "output"
