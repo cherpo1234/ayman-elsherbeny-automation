@@ -275,7 +275,7 @@ class AudioGenerator:
                 voices = [v for v in voices if v["Locale"].startswith(language)]
             return voices
 
-        return asyncio.run(_list_voices())
+        return asyncio.run(_list())
 
     @staticmethod
     def list_coqui_models() -> List[str]:
