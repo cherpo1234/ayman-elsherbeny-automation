@@ -9,7 +9,7 @@ app:
 
 # إعدادات الفيديو
 video:
-  model: "stable-video-diffusion"  # stable-video-diffusion, stable-video-diffusion-img2vid
+  model: "stabilityai/stable-video-diffusion-img2vid-xt"
   device: "auto"  # auto, cuda, cpu, mps
   dtype: "float16"  # float16, float32, bfloat16
   fps: 7
