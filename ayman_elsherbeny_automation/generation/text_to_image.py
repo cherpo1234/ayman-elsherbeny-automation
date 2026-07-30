@@ -21,7 +21,7 @@ class TextToImageGenerator:
         refiner_id: Optional[str] = None,
         device: Optional[torch.device] = None,
         dtype: Optional[torch.dtype] = None,
-        use_refiner: bool = True,
+        use_refiner: bool = False,
     ):
         self.model_id = model_id or config.get("text_to_image.model_path", "stabilityai/stable-diffusion-xl-base-1.0")
         self.refiner_id = refiner_id or config.get("text_to_image.refiner_path", "stabilityai/stable-diffusion-xl-refiner-1.0")
@@ -45,6 +45,8 @@ class TextToImageGenerator:
         )
 
         self.base_pipeline.to(self.device)
+        self.base_pipeline.enable_vae_slicing()
+        self.base_pipeline.enable_vae_tiling()
         optimize_memory(self.device)
 
         if self.use_refiner:
