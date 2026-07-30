@@ -13,7 +13,7 @@ from rich.table import Table
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
-from ayman_elsherbeny_automation import config, logger, OUTPUT_DIR
+from ayman_elsherbeny_automation import config, logger, OUTPUT_DIR, INPUT_DIR, MODELS_DIR, CONFIG_DIR, LOGS_DIR
 from ayman_elsherbeny_automation.core.automation import create_automation
 from ayman_elsherbeny_automation.utils.device import get_gpu_memory_info, print_memory_summary
 
@@ -315,11 +315,11 @@ def info():
 
     # Directories
     console.print(f"\n[bold]Directories:[/bold]")
-    console.print(f"  Input:  {config.INPUT_DIR}")
+    console.print(f"  Input:  {INPUT_DIR}")
     console.print(f"  Output: {OUTPUT_DIR}")
-    console.print(f"  Models: {config.MODELS_DIR}")
-    console.print(f"  Config: {config.CONFIG_DIR}")
-    console.print(f"  Logs:   {config.LOGS_DIR}")
+    console.print(f"  Models: {MODELS_DIR}")
+    console.print(f"  Config: {CONFIG_DIR}")
+    console.print(f"  Logs:   {LOGS_DIR}")
 
 
 @cli.command()

@@ -7,7 +7,7 @@ from typing import Optional, List, Union
 from PIL import Image
 import torch
 from diffusers import StableDiffusionXLPipeline
-from ayman_elsherbeny_automation.config import config, OUTPUT_DIR
+from ayman_elsherbeny_automation.config import config, OUTPUT_DIR, MODELS_DIR
 from ayman_elsherbeny_automation.utils.device import get_device, get_dtype, clear_memory, optimize_memory
 from ayman_elsherbeny_automation.utils.logging import logger
 
@@ -41,7 +41,7 @@ class TextToImageGenerator:
             torch_dtype=self.dtype,
             variant="fp16" if self.dtype == torch.float16 else None,
             use_safetensors=True,
-            cache_dir=str(config.models_dir),
+            cache_dir=str(MODELS_DIR),
         )
 
         self.base_pipeline.to(self.device)
@@ -55,7 +55,7 @@ class TextToImageGenerator:
                 torch_dtype=self.dtype,
                 variant="fp16" if self.dtype == torch.float16 else None,
                 use_safetensors=True,
-                cache_dir=str(config.models_dir),
+                cache_dir=str(MODELS_DIR),
             )
             self.refiner_pipeline.to(self.device)
 
