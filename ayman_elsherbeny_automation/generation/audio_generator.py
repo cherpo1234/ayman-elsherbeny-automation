@@ -6,7 +6,7 @@ import subprocess
 import tempfile
 from pathlib import Path
 from typing import Optional, Union, List
-from ayman_elsherbeny_automation.config import config
+from ayman_elsherbeny_automation.config import config, OUTPUT_DIR
 from ayman_elsherbeny_automation.utils.logging import logger
 
 
@@ -94,7 +94,7 @@ class AudioGenerator:
         pitch = pitch or f"{self.pitch:+d}Hz"
 
         if output_path is None:
-            output_path = config.OUTPUT_DIR / f"tts_{uuid.uuid4().hex[:8]}.mp3"
+            output_path = OUTPUT_DIR / f"tts_{uuid.uuid4().hex[:8]}.mp3"
         else:
             output_path = Path(output_path)
 
@@ -122,7 +122,7 @@ class AudioGenerator:
         language = language or self.language
 
         if output_path is None:
-            output_path = config.OUTPUT_DIR / f"tts_coqui_{uuid.uuid4().hex[:8]}.wav"
+            output_path = OUTPUT_DIR / f"tts_coqui_{uuid.uuid4().hex[:8]}.wav"
         else:
             output_path = Path(output_path)
 
@@ -153,7 +153,7 @@ class AudioGenerator:
         lang = lang or self.language
 
         if output_path is None:
-            output_path = config.OUTPUT_DIR / f"tts_gtts_{uuid.uuid4().hex[:8]}.mp3"
+            output_path = OUTPUT_DIR / f"tts_gtts_{uuid.uuid4().hex[:8]}.mp3"
         else:
             output_path = Path(output_path)
 
@@ -177,7 +177,7 @@ class AudioGenerator:
         import pyttsx3
 
         if output_path is None:
-            output_path = config.OUTPUT_DIR / f"tts_pyttsx3_{uuid.uuid4().hex[:8]}.wav"
+            output_path = OUTPUT_DIR / f"tts_pyttsx3_{uuid.uuid4().hex[:8]}.wav"
         else:
             output_path = Path(output_path)
 
@@ -245,7 +245,7 @@ class AudioGenerator:
     ) -> List[Path]:
         """توليد ملفات صوتية متعددة"""
         if output_dir is None:
-            output_dir = config.OUTPUT_DIR / "batch"
+            output_dir = OUTPUT_DIR / "batch"
         else:
             output_dir = Path(output_dir)
 

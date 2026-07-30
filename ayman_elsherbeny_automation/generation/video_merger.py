@@ -6,7 +6,7 @@ import subprocess
 import shutil
 from pathlib import Path
 from typing import Optional, Union, List
-from ayman_elsherbeny_automation.config import config
+from ayman_elsherbeny_automation.config import config, OUTPUT_DIR
 from ayman_elsherbeny_automation.utils.logging import logger
 
 
@@ -121,7 +121,7 @@ class VideoMerger:
             raise FileNotFoundError(f"Audio file not found: {audio_path}")
 
         if output_path is None:
-            output_path = config.OUTPUT_DIR / f"merged_{uuid.uuid4().hex[:8]}.{self.output_format}"
+            output_path = OUTPUT_DIR / f"merged_{uuid.uuid4().hex[:8]}.{self.output_format}"
         else:
             output_path = Path(output_path)
 
@@ -222,7 +222,7 @@ class VideoMerger:
                 raise FileNotFoundError(f"Video not found: {p}")
 
         if output_path is None:
-            output_path = config.OUTPUT_DIR / f"concat_{uuid.uuid4().hex[:8]}.{self.output_format}"
+            output_path = OUTPUT_DIR / f"concat_{uuid.uuid4().hex[:8]}.{self.output_format}"
         else:
             output_path = Path(output_path)
 
@@ -268,7 +268,7 @@ class VideoMerger:
             raise FileNotFoundError(f"Video file not found: {video_path}")
 
         if output_path is None:
-            output_path = config.OUTPUT_DIR / f"{video_path.stem}_audio.mp3"
+            output_path = OUTPUT_DIR / f"{video_path.stem}_audio.mp3"
         else:
             output_path = Path(output_path)
 
@@ -303,7 +303,7 @@ class VideoMerger:
             raise FileNotFoundError(f"Video file not found: {video_path}")
 
         if output_path is None:
-            output_path = config.OUTPUT_DIR / f"{video_path.stem}_resized.{self.output_format}"
+            output_path = OUTPUT_DIR / f"{video_path.stem}_resized.{self.output_format}"
         else:
             output_path = Path(output_path)
 

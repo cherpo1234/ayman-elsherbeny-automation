@@ -7,7 +7,7 @@ from typing import Optional, List, Union
 from PIL import Image
 import torch
 from diffusers import StableDiffusionXLPipeline
-from ayman_elsherbeny_automation.config import config
+from ayman_elsherbeny_automation.config import config, OUTPUT_DIR
 from ayman_elsherbeny_automation.utils.device import get_device, get_dtype, clear_memory, optimize_memory
 from ayman_elsherbeny_automation.utils.logging import logger
 
@@ -98,7 +98,7 @@ class TextToImageGenerator:
         )
 
         if output_path is None:
-            output_path = config.output_dir
+            output_path = OUTPUT_DIR
         else:
             output_path = Path(output_path)
 

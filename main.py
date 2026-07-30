@@ -11,7 +11,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from ayman_elsherbeny_automation.core.automation import create_automation
-from ayman_elsherbeny_automation import config
+from ayman_elsherbeny_automation import config, OUTPUT_DIR
 
 
 PRESETS = {
@@ -207,7 +207,7 @@ def main():
     print("\n" + "=" * 60)
     success = sum(1 for r in results if r is not None)
     print(f"✅ تم: {success}/{len(results)} مقطع")
-    print(f"📂 المخرجات في مجلد: {config.OUTPUT_DIR}")
+    print(f"📂 المخرجات في مجلد: {OUTPUT_DIR}")
     print(f"   شغل: python main.py --presets لعرض القوالب")
     print("=" * 60)
 

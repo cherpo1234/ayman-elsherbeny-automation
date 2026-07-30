@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Optional, Union, List
 from PIL import Image
 from diffusers import StableVideoDiffusionPipeline
-from ayman_elsherbeny_automation.config import config
+from ayman_elsherbeny_automation.config import config, OUTPUT_DIR
 from ayman_elsherbeny_automation.utils.device import get_device, get_dtype, optimize_model, clear_memory
 from ayman_elsherbeny_automation.utils.logging import logger
 
@@ -238,7 +238,7 @@ class VideoGenerator:
     ) -> List[Path]:
         """توليد فيديوهات متعددة من قائمة صور"""
         if output_dir is None:
-            output_dir = config.OUTPUT_DIR / "batch"
+            output_dir = OUTPUT_DIR / "batch"
         else:
             output_dir = Path(output_dir)
 

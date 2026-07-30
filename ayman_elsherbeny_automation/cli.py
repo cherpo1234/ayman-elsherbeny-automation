@@ -13,7 +13,7 @@ from rich.table import Table
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
-from ayman_elsherbeny_automation import config, logger
+from ayman_elsherbeny_automation import config, logger, OUTPUT_DIR
 from ayman_elsherbeny_automation.core.automation import create_automation
 from ayman_elsherbeny_automation.utils.device import get_gpu_memory_info, print_memory_summary
 
@@ -308,7 +308,7 @@ def info():
         f"Default Voice: {config.get('audio.voice')}\n"
         f"Device: {config.get('hardware.device')}\n"
         f"Precision: {config.get('video.dtype')}\n"
-        f"Output Dir: {config.OUTPUT_DIR}",
+        f"Output Dir: {OUTPUT_DIR}",
         title="Configuration",
         border_style="green"
     ))
@@ -316,7 +316,7 @@ def info():
     # Directories
     console.print(f"\n[bold]Directories:[/bold]")
     console.print(f"  Input:  {config.INPUT_DIR}")
-    console.print(f"  Output: {config.OUTPUT_DIR}")
+    console.print(f"  Output: {OUTPUT_DIR}")
     console.print(f"  Models: {config.MODELS_DIR}")
     console.print(f"  Config: {config.CONFIG_DIR}")
     console.print(f"  Logs:   {config.LOGS_DIR}")
