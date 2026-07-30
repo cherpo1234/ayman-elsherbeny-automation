@@ -4,7 +4,6 @@
 import logging
 import sys
 from pathlib import Path
-from ayman_elsherbeny_automation.config import config
 
 
 def setup_logging(
@@ -13,6 +12,7 @@ def setup_logging(
     format_str: Optional[str] = None,
 ) -> logging.Logger:
     """إعداد نظام التسجيل"""
+    from ayman_elsherbeny_automation.config import config
 
     level = level or config.get("logging.level", "INFO")
     log_file = log_file or Path(config.get("logging.file", "./logs/ayman_elsherbeny.log"))
@@ -74,6 +74,6 @@ def _ensure_logger() -> None:
         _logger_initialized = True
 
 
-# مسجل الوحدة
+# مسجل الوحدة - lazy initialization
+_logger_instance = None
 logger = get_logger(__name__)
-_ensure_logger()

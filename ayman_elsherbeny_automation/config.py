@@ -4,7 +4,9 @@
 import yaml
 from pathlib import Path
 from typing import Any, Optional, Dict
-from ayman_elsherbeny_automation.utils.logging import logger
+from ayman_elsherbeny_automation.utils.logging import get_logger
+
+logger = get_logger(__name__)
 
 
 class Config:
