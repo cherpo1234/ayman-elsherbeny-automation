@@ -10,7 +10,7 @@ __description__ = "أوتوميشن احترافي لتحويل النص/الص�
 
 from .config import config, ROOT_DIR, CONFIG_DIR, MODELS_DIR, OUTPUT_DIR, INPUT_DIR, LOGS_DIR
 from .utils.logging import setup_logging, get_logger, logger
-from .utils.device import get_device, get_dtype, optimize_model, clear_memory, get_gpu_memory_info
+from .utils.device import get_device, get_dtype, optimize_model, clear_memory, get_gpu_memory_info, optimize_memory
 
 # إعداد السجل عند الاستيراد
 setup_logging()
@@ -30,5 +30,6 @@ __all__ = [
     "get_dtype",
     "optimize_model",
     "clear_memory",
+    "optimize_memory",
     "get_gpu_memory_info",
 ]

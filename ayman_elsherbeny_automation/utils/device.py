@@ -148,13 +148,18 @@ def optimize_model(model: torch.nn.Module, device: Optional[torch.device] = None
     return model
 
 
-def clear_memory() -> None:
+def clear_memory(device: Optional[torch.device] = None) -> None:
     """تنظيف ذاكرة GPU"""
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
         torch.cuda.ipc_collect()
     import gc
     gc.collect()
+
+
+def optimize_memory(device: Optional[torch.device] = None) -> None:
+    """تحسين/تنظيف الذاكرة (مرادف clear_memory)"""
+    clear_memory(device)
 
 
 def get_gpu_memory_info() -> dict:
