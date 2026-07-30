@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Optional, Union, List, Dict, Any
 from contextlib import contextmanager
 
-from ayman_elsherbeny_automation import config, logger
+from ayman_elsherbeny_automation import config, logger, OUTPUT_DIR as CONFIG_OUTPUT_DIR
 from ayman_elsherbeny_automation.generation.video_generator import create_video_generator
 from ayman_elsherbeny_automation.generation.text_to_image import create_text_to_image_generator
 from ayman_elsherbeny_automation.generation.audio_generator import create_audio_generator
@@ -38,7 +38,7 @@ class AymanElsherbenyAutomation:
         self.tts_engine = tts_engine or config.get("audio.tts_engine", "edge-tts")
         self.device = device or config.get("hardware.device", "auto")
         self.dtype = dtype or config.get("video.dtype", "float16")
-        self.output_dir = Path(output_dir) if output_dir else config.OUTPUT_DIR
+        self.output_dir = Path(output_dir) if output_dir else CONFIG_OUTPUT_DIR
 
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
