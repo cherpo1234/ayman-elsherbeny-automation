@@ -134,8 +134,8 @@ def main():
             result = automation.text_to_video(
                 prompt=args.simple,
                 audio_text=args.simple,
-                voice=args.voice or preset["voice"],
-                language=args.language,
+                audio_voice=args.voice or preset["voice"],
+                audio_language=args.language,
                 num_frames=args.frames or preset["frames"],
                 fps=args.fps or preset["fps"],
                 motion_bucket_id=args.motion or preset["motion_bucket"],
